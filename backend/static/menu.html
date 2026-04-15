@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalle del Menú — Nexus Lounge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/styles.css" />
+  <style>
+    .menu-detail-section { padding: 5rem 0; }
+    .menu-header { text-align: center; margin-bottom: 3rem; }
+    .menu-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: #c8a24e; margin-bottom: 0.5rem; }
+    .menu-header p { font-size: 1.25rem; color: #aaa; }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .menu-gallery { display: grid; gap: 1rem; }
+    .menu-gallery img { width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 4/3; }
+    .menu-gallery-main { aspect-ratio: 4/3; object-fit: cover; width: 100%; border-radius: 12px; }
+    .menu-gallery-thumbnails { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+    .menu-gallery-thumbnails img { width: 100%; border-radius: 4px; cursor: pointer; opacity: 0.6; transition: 0.3s; }
+    .menu-gallery-thumbnails img:hover, .menu-gallery-thumbnails img.active { opacity: 1; }
+    
+    .menu-info { color: #f0f0f0; }
+    .menu-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+    .menu-course { margin-bottom: 1.5rem; }
+    .menu-course-name { font-weight: 500; font-size: 1.1rem; color: #fff; margin-bottom: 0.2rem; }
+    .menu-course-allergens { font-size: 0.85rem; color: #c8a24e; }
+    
+    .menu-meta { background: #1a1a1a; padding: 2rem; border-radius: 8px; margin-top: 3rem; font-size: 0.95rem; }
+    .menu-meta p { margin-bottom: 0.75rem; }
+    .menu-meta strong { color: #fff; }
+    
+    .price-box { font-size: 2rem; font-family: 'Cormorant Garamond', serif; color: #c8a24e; margin: 2rem 0; }
+    
+    @media(max-width: 768px) {
+      .menu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap inner">
+      <a href="/restaurants" class="logo">Nexus<span>Lounge</span></a>
+      <a href="/restaurants" class="btn-outline">← Volver</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="menu-detail-section">
+      <div class="wrap" id="menu-container">
+        <p style="text-align:center;">Cargando menú...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="logo">Nexus<span>Lounge</span></div>
+      <p>Madrid, España · Solo con reserva previa</p>
+    </div>
+  </footer>
+
+  <script src="static/config.js"></script>
+  <script>
+    (async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const menuName = urlParams.get('id');
+      const container = document.getElementById('menu-container');
+      if (!menuName) {
+        container.innerHTML = '<p style="text-align:center;">Menú no encontrado.</p>';
+        return;
+      }
+      
+      try {
+        const response = await fetch('menu_data.json');
+        const data = await response.json();
+        const menuObj = data.menus_degustacion.find(m => m.nombre === menuName);
+        
+        if (!menuObj) {
+           container.innerHTML = '<p style="text-align:center;">Menú no encontrado.</p>';
+           return;
+        }
+
+        let galleryHtml = '';
+        if (menuObj.gallery && menuObj.gallery.length > 0) {
+            const mainImg = menuObj.gallery[0];
+            const thumbs = menuObj.gallery.slice(1, 6).map(src => `<img src="${src}" onclick="document.getElementById('main-img').src='${src}'">`).join('');
+            galleryHtml = `
+              <div class="menu-gallery">
+                 <img src="${mainImg}" id="main-img" class="menu-gallery-main">
+                 <div class="menu-gallery-thumbnails">
+                   <img src="${mainImg}" onclick="document.getElementById('main-img').src='${mainImg}'">
+                   ${thumbs}
+                 </div>
+              </div>
+            `;
+        }
+
+        let platosHtml = (menuObj.platos || []).map(p => `
+            <div class="menu-course">
+               <div class="menu-course-name">${p.nombre}</div>
+               ${p.alergenos && p.alergenos.length ? `<div class="menu-course-allergens">Alérgenos: ${p.alergenos.join(', ')}</div>` : ''}
+            </div>
+        `).join('');
+
+        container.innerHTML = `
+          <div class="menu-header">
+             <h1>${menuObj.nombre}</h1>
+             <p>${menuObj.pasos} pasos | ${menuObj.tema}</p>
+          </div>
+          <div class="menu-grid">
+             ${galleryHtml}
+             <div class="menu-info">
+               <h2>El Menú</h2>
+               <div class="courses-list">
+                 ${platosHtml}
+               </div>
+
+               <div class="menu-meta">
+                 <p><strong>Precio:</strong> ${menuObj.precio} €/persona</p>
+                 <p><strong>Descripción:</strong> ${menuObj.descripcion}</p>
+                 <p><strong>Notas:</strong> ${menuObj.notas}</p>
+                 <a href="https://wa.me/34663103334?text=${encodeURIComponent('Hola, quiero reservar el menú ' + menuObj.nombre)}" target="_blank" class="btn-outline" style="margin-top:1.5rem; display:inline-block; width:100%; text-align:center;">Reservar por WhatsApp</a>
+               </div>
+             </div>
+          </div>
+        `;
+      } catch (e) {
+          container.innerHTML = '<p style="text-align:center;">Error cargando el menú.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+:root {
+  --bg-deep: #0f0e0d;
+  --bg-card: #1a1816;
+  --bg-elevated: #232019;
+  --text: #f2ebe3;
+  --text-muted: #a89f94;
+  --accent: #c9a962;
+  --accent-soft: rgba(201, 169, 98, 0.15);
+  --border: rgba(242, 235, 227, 0.08);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+  --radius: 12px;
+  --shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.wrap {
+  width: min(1120px, 92vw);
+  margin-inline: auto;
+}
+
+/* Header */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, var(--bg-deep) 60%, transparent);
+  padding: 1rem 0 2rem;
+}
+
+.site-header .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.logo span {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.nav-main {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-main a {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav-main a:hover {
+  color: var(--text);
+}
+
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  background: #25d366;
+  color: #fff !important;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-wa:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+}
+
+.btn-wa svg {
+  flex-shrink: 0;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-main {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(300px, 88vw);
+    height: 100vh;
+    background: var(--bg-card);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 1.5rem 2rem;
+    gap: 1.25rem;
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+
+  .nav-main.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-main .btn-wa {
+    margin-top: 0.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-soft), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(201, 169, 98, 0.06), transparent);
+  pointer-events: none;
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0 0 1.25rem;
+  max-width: 14ch;
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 36ch;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  border-radius: 999px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Sections */
+section {
+  padding: 5rem 0;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3.5rem;
+}
+
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
+
+.section-head p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* Tasting grid */
+.tasting-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.tasting-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.tasting-card__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.tasting-card:hover {
+  border-color: rgba(201, 169, 98, 0.35);
+  transform: translateY(-2px);
+}
+
+.tasting-card__body .tag {
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.tasting-card__body h3 {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.tasting-meta {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.tasting-card p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  flex-grow: 1;
+}
+
+.tasting-price {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--text);
+  margin-top: 0.35rem;
+}
+
+/* Carrusel en tarjetas de menú */
+.menu-carousel {
+  position: relative;
+  background: #000;
+}
+
+.menu-carousel__viewport {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.menu-carousel__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.35s ease;
+}
+
+.menu-carousel__slide {
+  flex: 0 0 100%;
+  margin: 0;
+  height: 100%;
+}
+
+.menu-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.menu-carousel__btn:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.menu-carousel__btn--prev {
+  left: 0.5rem;
+}
+
+.menu-carousel__btn--next {
+  right: 0.5rem;
+}
+
+.menu-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0 0.85rem;
+  background: linear-gradient(to top, var(--bg-card), transparent);
+  margin-top: -2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-carousel__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.menu-carousel__dot[aria-current="true"] {
+  background: var(--accent);
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.card-actions .btn-wa {
+  background: #25d366;
+  color: #fff !important;
+}
+
+.card-actions .btn-email {
+  background: transparent;
+  color: var(--text) !important;
+  border: 1px solid var(--border);
+}
+
+.card-actions .btn-email svg {
+  flex-shrink: 0;
+}
+
+.card-actions .btn-book {
+  background: var(--accent-soft);
+  color: var(--accent) !important;
+  border: 1px solid rgba(201, 169, 98, 0.45);
+}
+
+.card-actions .btn-book:hover {
+  background: rgba(201, 169, 98, 0.22);
+}
+
+/* Modal reserva */
+.booking-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.booking-modal[hidden] {
+  display: none !important;
+}
+
+.booking-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+}
+
+.booking-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  max-height: min(90vh, 640px);
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.35rem 1.35rem;
+  box-shadow: var(--shadow);
+}
+
+.booking-modal__close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.booking-modal__title {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
+  margin: 0 0 0.35rem;
+  padding-right: 2rem;
+}
+
+.booking-modal__menu {
+  margin: 0 0 1.25rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.booking-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.booking-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.booking-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.booking-error {
+  color: #e07a7a;
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.booking-step .btn-book,
+.booking-step .booking-next {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.slot-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.slot-btn {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.slot-btn:hover,
+.slot-btn.is-selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.booking-back {
+  margin-top: 0.75rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.booking-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.booking-row--stack {
+  flex-direction: column;
+}
+
+.booking-row .btn-book,
+.booking-row .btn-outline,
+.booking-row .btn-wa {
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+}
+
+.booking-row--stack .btn-book,
+.booking-row--stack .btn-outline,
+.booking-row--stack .btn-wa {
+  width: 100%;
+}
+
+.booking-summary {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  background: var(--bg-deep);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+body.booking-modal-open {
+  overflow: hidden;
+}
+
+/* Carta */
+.carta-layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .carta-layout {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 3rem;
+  }
+}
+
+.carta-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+}
+
+.carta-block h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+}
+
+.carta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.carta-item:last-child {
+  border-bottom: none;
+}
+
+.carta-item strong {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.carta-item span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Philosophy */
+.philo {
+  background: var(--bg-card);
+  border-block: 1px solid var(--border);
+}
+
+.philo .wrap {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .philo .wrap {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+  }
+}
+
+.philo h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3vw, 2.35rem);
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+
+.philo p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* CTA strip */
+.cta-strip {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.cta-strip h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  margin: 0 0 0.5rem;
+}
+
+.cta-strip p {
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.cta-strip .btn-wa {
+  padding: 0.85rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* Footer */
+.site-footer {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.site-footer .logo {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Floating WhatsApp */
+.wa-fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.wa-fab:hover {
+  transform: scale(1.06);
+}
+
+.wa-fab svg {
+  width: 28px;
+  height: 28px;
+}
